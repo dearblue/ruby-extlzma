@@ -1,17 +1,17 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 #vim: set fileencoding:utf-8
 
 # このrubyスクリプトはruby-lzmaの利用手引きを兼ねたサンプルスクリプトです。
 
 
-# 01-* ではデータの全てを用意してから処理を行いました。
-# このスクリプトではオンメモリでは難しい大きなデータを処理する方法を学びます。
+# 01-* ではデータの全てを用意してから処理を行う方法を提示しますた。
+# このサンプルではオンメモリでは難しい大きなデータを処理する方法を提示します。
 
 
 # 始めはお決まりで
-require "lzma"
+require "liblzma"
 
-# ファイルI/Oを再現するためにStringIOを利用します
+# 今回のサンプルでファイルI/Oを再現するためにStringIOを利用します
 require "stringio"
 
 # 圧縮元となるデータを用意します
@@ -28,12 +28,12 @@ end                                                 #  -
 dest << encoder.finish                              # (3)
 
 # (1) はじめに圧縮器を構築します
-#   LZMA::Stream.encoderの引数は、1個以上をとることが出来ます (上限はliblzma由来の4個です)
-#   LZMA::Filter.lzma2の引数は、LZMA.encodeの二つ目以降の引数と同じです
-#       LZMA::Filter.lzma2(1) とか LZMA::Filter.lzma2(mode: LZMA::MODE_FAST) とか
+#     LZMA::Stream.encoderの引数は、1つ以上をとることが出来ます (上限はliblzma由来となる4つです)
+#     LZMA::Filter.lzma2の引数は、LZMA.encodeの二つ目以降の引数と同じです
+#     (LZMA::Filter.lzma2(1) とか LZMA::Filter.lzma2(mode: LZMA::MODE_FAST) とか)
 # (2) 取り込んだ部分データを処理します
 # (3) データの終わりを通知し、圧縮器内に残ったデータを取り出します
-#   これを忘れるとxzデータストリームとして間違ったものが生成されます
+#     これを忘れるとxzデータストリームとして間違ったものが生成されます
 
 
 
@@ -51,7 +51,7 @@ dest << decoder.finish                              # (3)
 
 puts(dest == original_data ? "data ok" : "bad data")
 
-# 違いがわかりますか?
+# 圧縮時と伸張時の違いがわかりますか?
 # はじめ(1)の伸張器の構築部分 (encoderかdecoderか) を変更するだけで、後は同じような文で処理を行えます
 
 

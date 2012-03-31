@@ -1,11 +1,11 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 #vim: set fileencoding:utf-8
 
-# このrubyスクリプトはruby-lzmaの利用手引きを兼ねたサンプルスクリプトです。
+# このrubyスクリプトはliblzmaの利用手引きを兼ねたサンプルスクリプトです。
 
 
 # rubyでliblzmaの機能を利用するのに必要なのは、次の一文のみです
-require "lzma"
+require "liblzma"
 
 
 # 圧縮するデータを用意します
@@ -32,7 +32,7 @@ encoded_data = LZMA.encode(original_data, mode: LZMA::MODE_FAST)
 
 # 必要であればファイルに書き出しましょう
 # xzデータストリームそのものです
-File.open("sample.txt.xz", "wb") { |f| f << encoded_data }
+File.write("sample.txt.xz", encoded_data, mode: "wb")
 
 # 出力されたファイルがxzユーティリティ(もしくは7-Zip)で開けることを確認してください
 
