@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #vim: set fileencoding:utf-8
 
-# このrubyスクリプトはliblzmaの利用手引きを兼ねたサンプルスクリプトです。
+# このrubyスクリプトはliblzma for Rubyの利用手引きを兼ねたサンプルスクリプトです。
 
 
 # rubyでliblzmaの機能を利用するのに必要なのは、次の一文のみです
