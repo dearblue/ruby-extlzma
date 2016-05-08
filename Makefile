@@ -1,10 +1,10 @@
-all:
-	gem build liblzma-mingw32.gemspec
-	gem build liblzma.gemspec
+all:	native-package mingw32-package
 
 clean:
-	@- cd lib/1.9.1 && make clean
-	@- cd lib/2.0.0 && make clean
+	-@rake clean RUBYSET=$(rubyset)
 
-rdoc:
-	rdoc -veUTF-8 -mREADME.txt README.txt ext/liblzma.c lib/liblzma.rb
+native-package:
+	rake clean all RUBYSET=$(rubyset)
+
+mingw32-package:
+	rake clean all RUBYSET=$(rubyset_mingw32) "EXTCONF=--with-opt-dir=$(HOME)/mingw32/xz-5.0.7-mingw32 --liblzma-static-link"
