@@ -117,7 +117,6 @@ stream_code(VALUE stream, VALUE src, VALUE dest, VALUE maxdest, VALUE action)
         p->next_in = NULL;
         p->avail_in = 0;
     } else {
-        rb_obj_infect(stream, src);
         rb_check_type(src, RUBY_T_STRING);
         rb_str_modify(src);
         p->next_in = (uint8_t *)RSTRING_PTR(src);
@@ -127,7 +126,6 @@ stream_code(VALUE stream, VALUE src, VALUE dest, VALUE maxdest, VALUE action)
     size_t maxdestn = NUM2SIZET(maxdest);
     rb_check_type(dest, RUBY_T_STRING);
     aux_str_reserve(dest, maxdestn);
-    rb_obj_infect(dest, stream);
     p->next_out = (uint8_t *)RSTRING_PTR(dest);
     p->avail_out = maxdestn;
 

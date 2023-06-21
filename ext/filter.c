@@ -264,7 +264,6 @@ aux_set_predict_0(lzma_options_lzma *filter, VALUE predict, VALUE self)
         rb_raise(rb_eTypeError, "%s", "predict is not a String or nil");
     }
 
-    rb_obj_infect(self, predict);
     rb_ivar_set(self, ivar_id_predict, predict);
 }
 
