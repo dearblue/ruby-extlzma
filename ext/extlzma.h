@@ -144,33 +144,32 @@ extlzma_getfilter(VALUE obj)
            __FILE__, __LINE__, __func__);    \
 
 
+typedef void *aux_call_blocking_f(va_list *ap);
+
 static inline void *
-aux_thread_call_without_gvl_main(void *pp)
+aux_thread_call_without_gvl_main(void *p)
 {
-    va_list *p = (va_list *)pp;
-    void *(*func)(void *) = va_arg(*p, void *(*)(void *));
-    va_list *va2 = va_arg(*p, va_list *);
-    return func(va2);
+    struct {
+        aux_call_blocking_f *func;
+        va_list va;
+    } *ap = p;
+
+    return ap->func(&ap->va);
 }
 
 static inline void *
-aux_thread_call_without_gvl_dummy(void *dummy, ...)
+aux_thread_call_without_gvl(aux_call_blocking_f *func, ...)
 {
-    va_list va;
-    va_start(va, dummy);
-    void *p = rb_thread_call_without_gvl(
-            aux_thread_call_without_gvl_main, &va, RUBY_UBF_PROCESS, 0);
-    va_end(va);
-    return p;
-}
+    struct {
+        aux_call_blocking_f *func;
+        va_list va;
+    } arg = { func };
+    va_start(arg.va, func);
 
-static inline void *
-aux_thread_call_without_gvl(void *(*func)(va_list *), ...)
-{
-    va_list va;
-    va_start(va, func);
-    void *p = aux_thread_call_without_gvl_dummy(0, func, &va);
-    va_end(va);
+    void *p = rb_thread_call_without_gvl(aux_thread_call_without_gvl_main,
+                                         (void *)&arg, RUBY_UBF_PROCESS, 0);
+    va_end(arg.va);
+
     return p;
 }
 
