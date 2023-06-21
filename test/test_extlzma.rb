@@ -5,12 +5,12 @@
 
 * LZMA.encode
   * LZMA.decode で伸長できるか
-  * lz4-cli で伸長できるか
+  * xz-cli で伸長できるか
   * 汚染状態の伝搬
   * security level
 * LZMA.encode_file
   * LZMA.decode_file で伸長できるか
-  * lz4-cli で伸長できるか
+  * xz-cli で伸長できるか
 * LZMA.decode
 * LZMA.decode_file
 * LZMA.test_file
@@ -38,7 +38,7 @@ class TestStreamAPI < Test::Unit::TestCase
   SAMPLES.each_pair do |name, data|
     define_method("test_encode_decode_sample:#{name}", -> {
       assert(data, LZMA.decode(LZMA.encode(data)))
-    })
+    }) if data
   end
 
   def test_encode_args

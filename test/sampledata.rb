@@ -11,5 +11,4 @@ SAMPLES = {
   "random (big size)"   => OpenSSL::Random.random_bytes(BIGSIZE),
 }
 
-SAMPLES["freebsd ports index"] = File.read("/usr/ports/INDEX-10", mode: "rb") rescue nil # if on FreeBSD
 SAMPLES["freebsd kernel"] = File.read("/boot/kernel/kernel", mode: "rb") rescue nil # if on FreeBSD
